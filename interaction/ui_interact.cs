@@ -10,3 +10,11 @@ void ProcessHandClick(Vector3 wristPosition, bool isPinching)
         }
     }
 }
+
+void ProcessSwipeGesture(Vector3 wristVelocity)
+{
+    if (wristVelocity.magnitude > 0.2f)
+    {
+        UIManager.ScrollUI(wristVelocity);
+    }
+}
