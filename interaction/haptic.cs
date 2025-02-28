@@ -1,15 +1,25 @@
-public class HapticFeedback
+public class DynamicHapticFeedback
 {
-    // Trigger a short vibration for button press
-    public void TriggerButtonPressFeedback()
+    public void TriggerFeedback(float intensity, float duration)
     {
-        // Example API call to send vibration signal
-        VRControllerBracelet.TriggerVibration(0.5f, 0.2f); // 0.5 amplitude, 0.2 duration
+        intensity = Mathf.Clamp01(intensity);
+        duration = Mathf.Clamp(duration, 0.05f, 1.0f); // Prevent too weak/long signals
+
+        VRControllerBracelet.TriggerVibration(intensity, duration);
     }
 
-    // Trigger a stronger vibration when hovering over an interactive UI element
-    public void TriggerHoverFeedback()
+    public void OnButtonPress()
     {
-        VRControllerBracelet.TriggerVibration(1.0f, 0.5f); // 1.0 amplitude, 0.5 duration
+        TriggerFeedback(0.8f, 0.2f); // Stronger vibration for button press
+    }
+
+    public void OnHover()
+    {
+        TriggerFeedback(0.3f, 0.1f); // Lighter vibration for hover effect
+    }
+
+    public void OnError()
+    {
+        TriggerFeedback(1.0f, 0.5f); // Strong, long vibration for error feedback
     }
 }
