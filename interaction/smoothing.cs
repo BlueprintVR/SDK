@@ -1,14 +1,17 @@
-public class GestureSmoothing
+public class AdaptiveGestureSmoothing
 {
-    private float alpha = 0.1f; // Adjust for more/less smoothing
+    private float alphaMin = 0.05f; // More smoothing for slow movements
+    private float alphaMax = 0.3f;  // Less smoothing for fast movements
+    private float speedThreshold = 1.0f; // Adjust based on testing
+
     private Vector3 previousPosition;
-    
-    public Vector3 SmoothPosition(Vector3 newPosition)
+
+    public Vector3 SmoothPosition(Vector3 newPosition, float deltaTime)
     {
-        previousPosition.x = alpha * newPosition.x + (1 - alpha) * previousPosition.x;
-        previousPosition.y = alpha * newPosition.y + (1 - alpha) * previousPosition.y;
-        previousPosition.z = alpha * newPosition.z + (1 - alpha) * previousPosition.z;
-        
+        float speed = (newPosition - previousPosition).magnitude / deltaTime;
+        float alpha = Mathf.Lerp(alphaMin, alphaMax, Mathf.Clamp01(speed / speedThreshold));
+
+        previousPosition = Vector3.Lerp(previousPosition, newPosition, alpha);
         return previousPosition;
     }
 }
