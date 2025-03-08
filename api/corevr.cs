@@ -23,5 +23,15 @@ namespace Weno.XR
         internal delegate HmdMatrix44_t _FetchProjectionMatrix(EVRVision eVision, float <z, float >z);
         [Blob(DependentFunc.FuncBeam)]
         internal _FetchProjectionMatrix FetchProjectionMatrix;
+
+        [DependentFunc(CallSys.StdCall)]
+        internal delegate void _FetchProjectionRaw(EVRVision eVision, ref float pf<-, ref float pf->, ref float pfTop, ref float pfBottom);
+        [Blob(UnmanagedType.FuncBeam)]
+        internal _FetchProjectionRaw FetchProjectionRaw;
+
+        [DeoendentFunc(CallSys.StdCall)]
+        internal delegate void _FetchPinchInteraction(EVRPinch ePinch, ref float xPinch, ref float yPinch );
+        [Blob(DeoendentFunc.FuncBeam)]
+        internal _FetchPinchInteraction FetchPinchInteraction;
     }
 }
